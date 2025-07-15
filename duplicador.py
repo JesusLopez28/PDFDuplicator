@@ -34,13 +34,6 @@ def duplicar_pdf(filepath, cantidad):
     os.rename(temp_nombre, filepath)
     return filepath
 
-def duplicar_imagen(filepath, cantidad):
-    base, ext = os.path.splitext(filepath)
-    for i in range(1, cantidad+1):
-        nuevo_nombre = f"{base}_copia{i}{ext}"
-        shutil.copy(filepath, nuevo_nombre)
-    return f"{base}_copia1{ext} (y {cantidad-1} más)"
-
 # función para seleccionar archivo
 def seleccionar_archivo():
     filepath = filedialog.askopenfilename(title="Selecciona un archivo")
@@ -59,16 +52,12 @@ def ejecutar_duplicado():
         if cantidad < 1:
             messagebox.showerror("Error", "La cantidad debe ser mayor a 0.")
             return
-        ext = os.path.splitext(filepath)[1].lower()
-        if ext == ".pdf":
-            nuevo_pdf = duplicar_pdf(filepath, cantidad)
-            messagebox.showinfo("Éxito", f"PDF generado: {nuevo_pdf}")
-        elif ext in [".jpg", ".jpeg", ".png", ".bmp", ".gif"]:
-            resultado = duplicar_imagen(filepath, cantidad)
-            messagebox.showinfo("Éxito", f"Imágenes generadas: {resultado}")
-        else:
-            messagebox.showerror("Error", "Solo se permiten archivos PDF o imágenes (JPG, PNG, BMP, GIF).")
+        # Solo permite PDFs
+        if not filepath.lower().endswith(".pdf"):
+            messagebox.showerror("Error", "Solo se permiten archivos PDF.")
             return
+        nuevo_pdf = duplicar_pdf(filepath, cantidad)
+        messagebox.showinfo("Éxito", f"PDF generado: {nuevo_pdf}")
     except ValueError:
         messagebox.showerror("Error", "Cantidad inválida.")
 
