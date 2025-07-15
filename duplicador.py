@@ -1,3 +1,6 @@
+# Para generar el ejecutable (.exe) usa:
+# pyinstaller --onefile --windowed duplicador.py
+
 # importaciones necesarias
 import tkinter as tk
 from tkinter import filedialog, messagebox
